@@ -1,0 +1,11 @@
+
+
+<h1>{{board.board_text}}</h1>
+
+{% for card in board.card_set.all %}
+
+<p>
+	{{card.card_text}}
+</p></br>
+
+{% endfor %}
