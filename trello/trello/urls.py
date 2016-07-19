@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from . import views as home_views
 
 urlpatterns = [
+	url(r'^$', home_views.index, name='index'),
 	url(r'^trello/', include('trellodemo.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login', auth_views.login)
 ]
