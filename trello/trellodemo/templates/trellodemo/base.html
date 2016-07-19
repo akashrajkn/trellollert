@@ -15,11 +15,9 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">TrellollerT</a>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li> 
-      <li><a href="#">Page 3</a></li>
-    </ul>
+    
+    {% block board_name %}{% endblock %}
+
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{current_user.username}} <span class="caret"></span></a>
@@ -32,7 +30,7 @@
   </div>
 </nav>
 
-{% block content %}{% endblock content %}
+{% block body %}{% endblock %}
 
 
 
