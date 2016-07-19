@@ -8,12 +8,13 @@
 <ul>
     {% for board in board_list %}
     <a href="{% url 'trellodemo:board' board.id %}" style="text-decoration: none;">
-    <button type="button" class= "btn btn-primary">{{ board.board_text }}</button>
-    </a> </br> </br>
+        <button type="button" class= "btn btn-primary">{{ board.board_text }}</button>
+    </a>
     {% endfor %}
 
-<!--    <button type="button" class> -->
-
+    <a href="#" style="text-decoration: none;">
+        <button type="button" class="btn btn-success"> Create New Board </button>
+    </a>
 </ul>
 
 {% endblock content %}
