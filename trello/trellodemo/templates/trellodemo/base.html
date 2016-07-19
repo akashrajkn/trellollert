@@ -16,7 +16,7 @@
       <a class="navbar-brand" href="#">TrellollerT</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Profile</a></li>
+      <li class="active"><a href="#">{{current_user.username}}</a></li>
       <li><a href="#">Page 1</a></li>
       <li><a href="#">Page 2</a></li> 
       <li><a href="#">Page 3</a></li> 
@@ -25,6 +25,9 @@
 </nav>
 
 {% block content %}{% endblock content %}
+
+
+
 
 </body>
 

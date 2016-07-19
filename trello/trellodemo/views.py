@@ -7,7 +7,8 @@ from .models import Board
 @login_required
 def index(request):
 	board_list = Board.objects.all()
-	context = {'board_list': board_list}
+	current_user = request.user	
+	context = {'board_list': board_list, 'current_user':current_user}
 	return render(request, 'trellodemo/index.html', context)
 
 @login_required
