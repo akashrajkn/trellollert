@@ -1,18 +1,19 @@
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% extends 'trellodemo/base.html' %}
 
 
+{% block content %}
 <br/>
 
 <ul>
     {% for board in board_list %}
-    <button type="button" class= "btn btn-default">
-        <a href="{% url 'trellodemo:board' board.id %}" style="text-decoration: none;">{{ board.board_text }}</a>
-    </button> </br> </br>
+    <a href="{% url 'trellodemo:board' board.id %}" style="text-decoration: none;">
+    <button type="button" class= "btn btn-primary">{{ board.board_text }}</button>
+    </a> </br> </br>
     {% endfor %}
+
+<!--    <button type="button" class> -->
+
 </ul>
+
+{% endblock content %}
