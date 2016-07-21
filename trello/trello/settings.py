@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'reactwithdjango.apps.ReactwithdjangoConfig',
     'trellodemo.apps.TrellodemoConfig',
     'django.contrib.admin',
     'django.contrib.auth',

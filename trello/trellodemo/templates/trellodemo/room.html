@@ -1,8 +1,11 @@
 
 {% extends 'trellodemo/base.html' %}
+{% load static %}
 
 
 {% block body %}
+
+<!--
 <br/>
 
 <ul>
@@ -16,5 +19,19 @@
         <button type="button" class="btn btn-success"> Create New Board </button>
     </a>
 </ul>
+
+</br>
+-->
+
+</br>
+
+<div id="boards_list_react"></div>
+<script type="text/babel" src="{% static 'js/room.js' %}"></script>
+
+</br>
+
+</br>
+
+
 
 {% endblock %}

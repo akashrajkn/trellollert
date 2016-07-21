@@ -22,5 +22,6 @@ urlpatterns = [
 	url(r'^$', home_views.index, name='index'),
 	url(r'^trello/', include('trellodemo.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login', auth_views.login)
+    url(r'^accounts/login', auth_views.login),
+    url(r'^reactwithdjango/', include('reactwithdjango.urls')),
 ]
