@@ -1,20 +1,17 @@
 
+
+
 {% extends 'trellodemo/base.html' %}
 
+{% load static %}
+
+
 {% block board_name %}
-<ul class="nav navbar-nav">
-	<li><a href="#">{{board.board_text}}</a></li>
-</ul>
-{% endblock %}
+<script>
+var boardid = '{{board.id}}';
+</script>
+<div id="cards_list_react"></div>
+<script type="text/babel" src="{% static 'js/board.js' %}"></script>
 
-{% block body %}
-
-{% for card in board.card_set.all %}
-
-<p>
-	{{card.card_text}}
-</p></br>
-
-{% endfor %}
 
 {% endblock %}

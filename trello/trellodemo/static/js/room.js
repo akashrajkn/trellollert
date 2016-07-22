@@ -19,10 +19,6 @@ var Room = React.createClass({
   },
   handleBoardSubmit: function(board) {
     var boards = this.state.data;
-    console.log(board);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    var user = document.getElementById('alpha').name;
-    console.log(user);
     board.id = Date.now();
     var newBoards = boards.concat([board]);
     this.setState({data: newBoards});

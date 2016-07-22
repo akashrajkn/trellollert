@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
--->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
@@ -20,7 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-
+-->
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.29.5/react-bootstrap.js"></script>
@@ -28,6 +27,10 @@
 -->
 
 
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/react.js' %}"></script>
+<script src="{% static 'js/react-dom.js' %}"></script>
+<script src="{% static 'js/browser.js' %}"></script>
 
 <script src="{% static 'js/react-bootstrap.js' %}"></script>
 <script src="{% static 'js/react-bootstrap.min.js' %}"></script>
@@ -45,7 +48,6 @@
       <a class="navbar-brand" href="#">TrellollerT</a>
     </div>
     
-    {% block board_name %}{% endblock %}
 
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
@@ -58,7 +60,7 @@
     </ul>
   </div>
 </nav>
-
+{% block board_name %}{% endblock %}
 {% block body %}{% endblock %}
 
 
