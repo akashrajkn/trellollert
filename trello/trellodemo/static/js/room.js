@@ -90,10 +90,15 @@ var BoardList = React.createClass({
 
 var BoardForm = React.createClass({
   getInitialState: function() {
-    return {boardname: ''};
+    return {boardname: '', show:false};
   },
   handleBoardnameChange: function(e) {
-    this.setState({boardname: e.target.value});
+    this.setState({boardname: e.target.value, show:this.state.show});
+  },
+  toggle:function () {
+
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    this.setState({boardname: this.state.boardname,show: !this.state.show})
   },
   handleTextChange: function(e) {
     this.setState({text: e.target.value});
@@ -106,50 +111,46 @@ var BoardForm = React.createClass({
     if (!boardname) {
       return;
     }
+    this.setState({boardname: '',show: false});
     this.props.onBoardSubmit({boardname: boardname, csrfmiddlewaretoken: csrftoken});
-    this.setState({boardname: ''});
+
   },
   render: function() {
 
-var popoverStyle={
-          position: 'absolute',
-          backgroundColor: '#EEE',
-          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
-          border: '1px solid #CCC',
-          borderRadius: 3,
-          marginLeft: -240,
-          marginTop:-10,
-          padding: 25,
-        }
+    var popoverStyle={
+      position: 'absolute',
+      backgroundColor: '#EEE',
+      boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+      border: '1px solid #CCC',
+      borderRadius: 3,
+      marginLeft: -240,
+      marginTop:-10,
+      padding: 25,
+    };
 
     var popoverHoverFocus = (
-      <Popover style={popoverStyle}>
+      <Popover style={popoverStyle} id="popover2">
         <Form inline onSubmit={this.handleSubmit}>
           <FormGroup controlId="formInlineCardName">
             <FormControl type="text" placeholder="Add new card" onChange={this.handleBoardnameChange}/>
           </FormGroup>
-          <Button bsStyle="success" onClick={this.handleBoardSubmit}>Add</Button>
         </Form>
       </Popover>
     );
 
     return (
       <div className="boardForm">
-
-     
-      <Grid>
-      <Row>
-      <Col md={3}>
-      <OverlayTrigger trigger="click" rootClose overlay={popoverHoverFocus}>
-      <Jumbotron>
-        <h3>Add Board</h3>
-      </Jumbotron>
-      </OverlayTrigger>
-      </Col>
-      </Row>
-      </Grid>
-
-      
+        <Grid>
+          <Row>
+            <Col md={3}>
+              <OverlayTrigger trigger="click" rootClose overlay={popoverHoverFocus}>
+                <Jumbotron>
+                  <h3>Add Board</h3>
+                </Jumbotron>
+              </OverlayTrigger>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }
