@@ -7,6 +7,10 @@ var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 var ListGroup = ReactBootstrap.ListGroup;
 var ListGroupItem = ReactBootstrap.ListGroupItem;
+var Form = ReactBootstrap.Form;
+var FormGroup = ReactBootstrap.FormGroup;
+var FormControl = ReactBootstrap.FormControl;
+var ControlLabel = ReactBootstrap.ControlLabel;
 
 var Cardbox = React.createClass({
   loadCardsFromServer: function() {
@@ -111,9 +115,6 @@ var CardForm = React.createClass({
   handleCardnameChange: function(e) {
     this.setState({card_text: e.target.value});
   },
-  handleTextChange: function(e) {
-    this.setState({text: e.target.value});
-  },
   handleSubmit: function(e) {
     e.preventDefault();
     var card_text = this.state.card_text.trim();
@@ -122,27 +123,29 @@ var CardForm = React.createClass({
     }
     this.props.onCardSubmit({card_text: card_text, csrfmiddlewaretoken: csrftoken});
     this.setState({card_text: ''});
+    console.log(this.state.card_text);
   },
   render: function() {
     return (
-      <form className="cardForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Card name"
-          onChange={this.handleCardnameChange}
-        />
-        <input type="submit" value="Create" />
-      </form>
+      <Form inline onSubmit={this.handleSubmit}>
+        <FormGroup controlId="formInlineCardName">
+          <FormControl type="text" placeholder="Add new card" onChange={this.handleCardnameChange}/>
+        </FormGroup>
+      </Form>
     );
   }
 });
 
 var Card = React.createClass({
   render: function() {
+
+    var jumboStyle= {backgroundColor:"yellow"};
+
+
     return (
       <div className="card">
         <Col md={3}>
-          <Jumbotron>
+          <Jumbotron style={jumboStyle}>
             <h3>{this.props.card_text}</h3>
             <MessageList data={this.props.message_data} />
           </Jumbotron>
@@ -163,11 +166,14 @@ var Message = React.createClass({
 });
 
 
+var divStyle = {
+  color: "#5FB404"
+};
 
 
 
 ReactDOM.render(
-  <Cardbox url={"/trello/cards/" + boardid + "/"} pollInterval={5000}/>,
+  <Cardbox style={divStyle} url={"/trello/cards/" + boardid + "/"} pollInterval={5000}/> ,
   document.getElementById('cards_list_react')
 );
 

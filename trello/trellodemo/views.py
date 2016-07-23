@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 import json
 
@@ -51,4 +52,9 @@ def cards(request, board_id):
         data.append({"id": card.id, "card_text":card.card_text, "message_data":message_data})
 
     return HttpResponse(json.dumps(data))
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('trellodemo/room.html')
 

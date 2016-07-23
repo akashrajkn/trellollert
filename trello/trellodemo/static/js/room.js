@@ -1,10 +1,21 @@
 
 var Button = ReactBootstrap.Button;
+var Jumbotron = ReactBootstrap.Jumbotron;
+var Grid = ReactBootstrap.Grid;
+var Row = ReactBootstrap.Row;
+var Col = ReactBootstrap.Col;
+var ListGroup = ReactBootstrap.ListGroup;
+var ListGroupItem = ReactBootstrap.ListGroupItem;
+var Form = ReactBootstrap.Form;
+var FormGroup = ReactBootstrap.FormGroup;
+var FormControl = ReactBootstrap.FormControl;
+var ControlLabel = ReactBootstrap.ControlLabel;
+
 
 var Room = React.createClass({
   loadBoardsFromServer: function() {
-    var user = document.getElementById('alpha').innerHTML;
-    console.log(user);
+//    var user = document.getElementById('alpha').innerHTML;
+//    console.log(user);
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -46,8 +57,11 @@ var Room = React.createClass({
   render: function() {
     return (
       <div className="room">
-        <BoardList data={this.state.data} />
-        <BoardForm onBoardSubmit={this.handleBoardSubmit} />
+        <Grid>
+          <h2>My Boards</h2>
+          <BoardList data={this.state.data} />
+          <BoardForm onBoardSubmit={this.handleBoardSubmit} />
+        </Grid>
       </div>  
     );
   }
@@ -107,12 +121,20 @@ var BoardForm = React.createClass({
 });
 
 var Board = React.createClass({
+
   render: function() {
+
+    var jumboStyle={backgroundColor:"#088A08", color:"white"};
+
     return (
       <div className="board">
-        <Button bsStyle="primary" href={'' + this.props.boardid}>
-          {this.props.boardname}
-        </Button>
+        <Col md={3}>
+        <a href={'' + this.props.boardid}>
+          <Jumbotron style={jumboStyle}>
+            <h3>{this.props.boardname}</h3>
+          </Jumbotron>
+        </a>
+        </Col>
       </div>
     );
   }
