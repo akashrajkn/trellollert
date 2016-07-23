@@ -10,6 +10,9 @@ var Form = ReactBootstrap.Form;
 var FormGroup = ReactBootstrap.FormGroup;
 var FormControl = ReactBootstrap.FormControl;
 var ControlLabel = ReactBootstrap.ControlLabel;
+var Popover = ReactBootstrap.Popover;
+var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+var Overlay = ReactBootstrap.Overlay;
 
 
 var Room = React.createClass({
@@ -107,17 +110,70 @@ var BoardForm = React.createClass({
     this.setState({boardname: ''});
   },
   render: function() {
+
+var popoverStyle={
+          position: 'absolute',
+          backgroundColor: '#EEE',
+          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+          border: '1px solid #CCC',
+          borderRadius: 3,
+          marginLeft: -240,
+          marginTop:-10,
+          padding: 25,
+        }
+
+    var popoverHoverFocus = (
+      <Popover style={popoverStyle}>
+        <Form inline onSubmit={this.handleSubmit}>
+          <FormGroup controlId="formInlineCardName">
+            <FormControl type="text" placeholder="Add new card" onChange={this.handleBoardnameChange}/>
+          </FormGroup>
+          <Button bsStyle="success" onClick={this.handleBoardSubmit}>Add</Button>
+        </Form>
+      </Popover>
+    );
+
     return (
-      <form className="boardForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Board name"
-          onChange={this.handleBoardnameChange}
-        />
-        <input type="submit" value="Create" />
-      </form>
+      <div className="boardForm">
+
+     
+      <Grid>
+      <Row>
+      <Col md={3}>
+      <OverlayTrigger trigger="click" rootClose overlay={popoverHoverFocus}>
+      <Jumbotron>
+        <h3>Add Board</h3>
+      </Jumbotron>
+      </OverlayTrigger>
+      </Col>
+      </Row>
+      </Grid>
+
+      
+      </div>
     );
   }
+});
+
+const CustomPopover = React.createClass({
+  render() {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          backgroundColor: '#EEE',
+          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+          border: '1px solid #CCC',
+          borderRadius: 3,
+          marginLeft: 0,
+          marginTop:-15,
+          padding: 10,
+        }}
+      >
+        <strong>Holy guacamole!</strong> Check this info.
+      </div>
+    );
+  },
 });
 
 var Board = React.createClass({
