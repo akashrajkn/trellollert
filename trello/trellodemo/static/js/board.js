@@ -11,6 +11,9 @@ var Form = ReactBootstrap.Form;
 var FormGroup = ReactBootstrap.FormGroup;
 var FormControl = ReactBootstrap.FormControl;
 var ControlLabel = ReactBootstrap.ControlLabel;
+var Popover = ReactBootstrap.Popover;
+var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+
 
 var Cardbox = React.createClass({
   loadCardsFromServer: function() {
@@ -68,7 +71,7 @@ var CardList = React.createClass({
   render: function() {
     var cardNodes = this.props.data.map(function(card) {
       return (
-        <Card card_text={card.card_text} key={card.id} cardid={card.id} message_data={card.message_data}>
+        <Card card_text={card.card_text} created_by={card.created_by} key={card.id} cardid={card.id} message_data={card.message_data}>
         </Card>
       );
     });
@@ -139,16 +142,25 @@ var CardForm = React.createClass({
 var Card = React.createClass({
   render: function() {
 
-    var jumboStyle= {backgroundColor:"yellow"};
+    var jumboStyle= {backgroundColor:"#2E64FE", color:"white"};
 
+    var popoverHoverFocus = (
+      <Popover id="popover-trigger-hover-focus">
+        Added by: <strong>{this.props.created_by}</strong>
+      </Popover>
+    );
 
     return (
       <div className="card">
         <Col md={3}>
+              <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverHoverFocus}>
+
           <Jumbotron style={jumboStyle}>
-            <h3>{this.props.card_text}</h3>
+            <h3><b>{this.props.card_text}</b></h3>
             <MessageList data={this.props.message_data} />
           </Jumbotron>
+        </OverlayTrigger>
+
         </Col>
       </div>
     );

@@ -126,14 +126,18 @@ var Board = React.createClass({
 
     var jumboStyle={backgroundColor:"#088A08", color:"white"};
 
+
+
     return (
       <div className="board">
         <Col md={3}>
+
         <a href={'' + this.props.boardid}>
           <Jumbotron style={jumboStyle}>
             <h3>{this.props.boardname}</h3>
           </Jumbotron>
         </a>
+
         </Col>
       </div>
     );
