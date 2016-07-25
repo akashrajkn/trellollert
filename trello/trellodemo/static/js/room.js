@@ -136,13 +136,15 @@ var BoardForm = React.createClass({
       </Popover>
     );
 
+    var jumboStyle = {backgroundColor: "#DCD1CE",};
+
     return (
       <div className="boardForm">
         <Grid>
           <Row>
             <Col md={3}>
               <OverlayTrigger trigger="click" rootClose overlay={popoverHoverFocus}>
-                <Jumbotron>
+                <Jumbotron style={jumboStyle}>
                   <h3>Add Board</h3>
                 </Jumbotron>
               </OverlayTrigger>
