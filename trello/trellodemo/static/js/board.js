@@ -67,11 +67,66 @@ var Cardbox = React.createClass({
   }
 });
 
+
+var Messagebox = React.createClass({
+  loadMessagesFromServer: function() {
+
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+
+  },
+  handleMessageSubmit: function(message) {
+    var messages = this.state.data;
+    message.id = Date.now();
+    var newMessages = messages.concat([message]);
+    this.setState({data: newMessages});
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: message,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: messages});
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadMessagesFromServer();
+    setInterval(this.loadMessagesFromServer, this.props.pollInterval);
+  },
+  render: function() {
+    return (
+      <div className="messagebox">
+        <MessageList data={this.state.data} />
+        <MessageForm onMessageSubmit={this.handleMessageSubmit} />
+      </div>
+    );
+  }
+});
+
+
+
 var CardList = React.createClass({
   render: function() {
     var cardNodes = this.props.data.map(function(card) {
       return (
-        <Card card_text={card.card_text} created_by={card.created_by} key={card.id} cardid={card.id} message_data={card.message_data}>
+        <Card card_text={card.card_text} created_by={card.created_by} key={card.id} cardid={card.id}>
         </Card>
       );
     });
@@ -93,8 +148,6 @@ var MessageList = React.createClass({
   render: function() {
 
     var messageNodes = this.props.data.map(function(message) {
-      console.log(message);
-
       return (
         <Message message_text={message.message_title} key={message.id} messageid={message.id}>
           {message.message_title}
@@ -126,7 +179,6 @@ var CardForm = React.createClass({
     }
     this.props.onCardSubmit({card_text: card_text, csrfmiddlewaretoken: csrftoken});
     this.setState({card_text: ''});
-    console.log(this.state.card_text);
   },
   render: function() {
     return (
@@ -155,7 +207,6 @@ var MessageForm = React.createClass({
     }
     this.props.onMessageSubmit({message_text: message_text, csrfmiddlewaretoken: csrftoken});
     this.setState({message_text: ''});
-    console.log(this.state.message_text);
   },
   render: function() {
     return (
@@ -187,8 +238,7 @@ var Card = React.createClass({
           <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverHoverFocus}>
             <Jumbotron style={jumboStyle}>
               <h3><b>{this.props.card_text}</b></h3>
-              <MessageList data={this.props.message_data} />
-              <MessageForm onMessageubmit={this.handleMessageSubmit} />
+              <Messagebox url={"/trello/messages/" + this.props.cardid + "/"} pollInterval={10000}/>
             </Jumbotron>
           </OverlayTrigger>
         </Col>
