@@ -20,7 +20,7 @@ def room(request):
     if request.method =='POST':
         board_data = BoardForm(request.POST)
         if board_data.is_valid():
-            new_board_data = board_data.save()
+            board_data.save()
 
     data = []
     board_list = Board.objects.all()

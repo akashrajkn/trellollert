@@ -61,7 +61,7 @@ var Room = React.createClass({
     return (
       <div className="room">
         <Grid>
-          <h2>My Boards</h2>
+          <h2>My Room</h2>
           <BoardList data={this.state.data} />
           <BoardForm onBoardSubmit={this.handleBoardSubmit} />
         </Grid>
@@ -96,8 +96,6 @@ var BoardForm = React.createClass({
     this.setState({boardname: e.target.value, show:this.state.show});
   },
   toggle:function () {
-
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     this.setState({boardname: this.state.boardname,show: !this.state.show})
   },
   handleTextChange: function(e) {
@@ -132,7 +130,7 @@ var BoardForm = React.createClass({
       <Popover style={popoverStyle} id="popover2">
         <Form inline onSubmit={this.handleSubmit}>
           <FormGroup controlId="formInlineCardName">
-            <FormControl type="text" placeholder="Add new card" onChange={this.handleBoardnameChange}/>
+            <FormControl type="text" placeholder="+ board" onChange={this.handleBoardnameChange}/>
           </FormGroup>
         </Form>
       </Popover>

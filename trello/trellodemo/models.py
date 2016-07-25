@@ -34,3 +34,11 @@ class Message(models.Model):
 
 	def __str__(self):
 		return self.title
+
+
+class MessageForm(ModelForm):
+	class Meta:
+		model = Message
+		fields = '__all__'
+
+

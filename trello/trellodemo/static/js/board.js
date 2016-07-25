@@ -62,7 +62,7 @@ var Cardbox = React.createClass({
       <div className="cardbox">
         <CardList data={this.state.data} />
         <CardForm onCardSubmit={this.handleCardSubmit} />
-      </div>  
+      </div>
     );
   }
 });
@@ -139,6 +139,37 @@ var CardForm = React.createClass({
   }
 });
 
+
+var MessageForm = React.createClass({
+  getInitialState: function() {
+    return {message_text: ''};
+  },
+  handleMessagenameChange: function(e) {
+    this.setState({message_text: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var message_text = this.state.message_text.trim();
+    if (!message_text) {
+      return;
+    }
+    this.props.onMessageSubmit({message_text: message_text, csrfmiddlewaretoken: csrftoken});
+    this.setState({message_text: ''});
+    console.log(this.state.message_text);
+  },
+  render: function() {
+    return (
+      <Form inline onSubmit={this.handleSubmit}>
+        <FormGroup controlId="formInlineMessageName">
+          <FormControl type="text" placeholder="message" onChange={this.handleMessagenameChange}/>
+        </FormGroup>
+      </Form>
+    );
+  }
+});
+
+
+
 var Card = React.createClass({
   render: function() {
 
@@ -152,15 +183,14 @@ var Card = React.createClass({
 
     return (
       <div className="card">
-        <Col md={3}>
-              <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverHoverFocus}>
-
-          <Jumbotron style={jumboStyle}>
-            <h3><b>{this.props.card_text}</b></h3>
-            <MessageList data={this.props.message_data} />
-          </Jumbotron>
-        </OverlayTrigger>
-
+        <Col md={4}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverHoverFocus}>
+            <Jumbotron style={jumboStyle}>
+              <h3><b>{this.props.card_text}</b></h3>
+              <MessageList data={this.props.message_data} />
+              <MessageForm onMessageubmit={this.handleMessageSubmit} />
+            </Jumbotron>
+          </OverlayTrigger>
         </Col>
       </div>
     );
