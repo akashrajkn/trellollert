@@ -26,7 +26,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.29.5/react-bootstrap.min.js"></script>
 -->
 
-
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/react.js' %}"></script>
 <script src="{% static 'js/react-dom.js' %}"></script>
@@ -40,8 +40,9 @@
 
 <script>
     var csrftoken = '{{ csrf_token }}';
+    var loggedInUser = '{{current_user.username}}';
 </script>
-
+<!--
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -51,7 +52,7 @@
 
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
-        <a id="alpha" class="dropdown-toggle" data-toggle="dropdown" href="#">{{current_user.username}}</a>
+        <a id="alpha" class="dropdown-toggle" data-toggle="dropdown" href="#">{{current_user.username}} <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="#">Profile</a></li>
           <li><a href="#">Sign out</a></li>
@@ -60,10 +61,11 @@
     </ul>
   </div>
 </nav>
-
+-->
 
 
 <div id="mount_node"></div>
+<script type="text/babel" src="{% static 'js/base.js' %}"></script>
 
 
 

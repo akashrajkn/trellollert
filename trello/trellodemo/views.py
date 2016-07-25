@@ -44,14 +44,28 @@ def cards(request, board_id):
     data = []
 
     for card in cards_list:
-        messages_list = Message.objects.filter(card=card)
-
-        message_data = []
-        for message in messages_list:
-            message_data.append({"id":message.id, "message_title":message.title})
-        data.append({"id": card.id, "card_text":card.card_text, "message_data":message_data, "created_by":card.created_by})
+        data.append({"id": card.id, "card_text":card.card_text, "created_by":card.created_by})
 
     return HttpResponse(json.dumps(data))
+
+
+@login_required
+def messages(request, card_id):
+
+    card = get_object_or_404(Card, pk=card_id)
+    if request.method == 'POST':
+        print(request.POST['message_text'])
+        title = request.POST['message_text']
+        message_data = Message(title = title, card = card, created_by = request.user.username)
+        message_data.save() 
+    message_list = Message.objects.filter(card=card)
+
+    data = []
+
+    for message in message_list:
+        data.append({"id": message.id, "card_text":card.card_text, "message_title":message.title, "created_by":message.created_by})
+
+    return HttpResponse(json.dumps(data))    
 
 
 def logout_view(request):
