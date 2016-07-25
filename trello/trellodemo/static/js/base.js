@@ -20,7 +20,7 @@ var Nav = ReactBootstrap.Nav;
 
 
 const navbarInstance = (
-  <Navbar inverse>
+  <Navbar>
     <Navbar.Header>
       <Navbar.Brand>
         <a href="#">TrellolerT</a>

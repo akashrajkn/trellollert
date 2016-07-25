@@ -63,7 +63,7 @@ def messages(request, card_id):
     data = []
 
     for message in message_list:
-        data.append({"id": message.id, "message_title":message.title, "created_by":message.created_by})
+        data.append({"id": message.id, "card_text":card.card_text, "message_title":message.title, "created_by":message.created_by})
 
     return HttpResponse(json.dumps(data))    
 

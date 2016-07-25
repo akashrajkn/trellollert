@@ -14,27 +14,34 @@ var ControlLabel = ReactBootstrap.ControlLabel;
 var Popover = ReactBootstrap.Popover;
 var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 var Modal = ReactBootstrap.Modal;
+var Glyphicon = ReactBootstrap.Glyphicon;
+var Panel = ReactBootstrap.Panel;
 
 
 
 var MyLargeModal = React.createClass({
   render() {
     return (
-      <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+      <Modal {...this.props} aria-labelledby="contained-modal-title-lg">
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-lg">Modal heading</Modal.Title>
+          <Modal.Title id="contained-modal-title-lg"><h2>{this.props.title}</h2></Modal.Title>
+          in Card: <b>{this.props.card_text}</b>
         </Modal.Header>
         <Modal.Body>
-          <h4>Wrapped Text</h4>
-          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+
+          <Grid>
+            <Row>
+              <h4>Add a Comment</h4>
+            </Row>
+            <Row>
+              <textarea cols="35" rows="3" placeholder="Write a comment...">
+              </textarea>
+            </Row>
+            <Row>
+              <Button bsStyle="success"><Glyphicon glyph="send" /> Send</Button>
+            </Row>
+          </Grid>
+
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>
@@ -179,7 +186,7 @@ var MessageList = React.createClass({
 
     var messageNodes = this.props.data.map(function(message) {
       return (
-        <Message message_text={message.message_title} key={message.id} messageid={message.id}>
+        <Message card_text={message.card_text} message_text={message.message_title} key={message.id} messageid={message.id}>
           {message.message_title}
         </Message>
       );
@@ -242,7 +249,7 @@ var MessageForm = React.createClass({
     return (
       <Form inline onSubmit={this.handleSubmit}>
         <FormGroup controlId="formInlineMessageName">
-          <FormControl type="text" placeholder="message" onChange={this.handleMessagenameChange}/>
+          <FormControl type="text" placeholder="message" onChange={this.handleMessagenameChange} block/>
         </FormGroup>
       </Form>
     );
@@ -285,13 +292,16 @@ var Message = React.createClass({
 
   render: function() {
 
+    var buttonStyle = {color:"black"};
+    const wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
+
     let lgClose = () => this.setState({ lgShow: false });    
     return (
-      <div className="message">
-        <Button bsStyle="link" onClick={()=>this.setState({ lgShow: true })}>
+      <div className="message" style={wellStyles}>
+        <Button bsStyle="default" bsSize="xsmall" style={buttonStyle} onClick={()=>this.setState({ lgShow: true })} block>
           {this.props.message_text}
         </Button>
-        <MyLargeModal show={this.state.lgShow} onHide={lgClose} />
+        <MyLargeModal card_text={this.props.card_text} show={this.state.lgShow} title={this.props.message_text} onHide={lgClose} />
       </div>
     );
   }
