@@ -208,14 +208,11 @@ var Message = React.createClass({
 });
 
 
-var divStyle = {
-  color: "#5FB404"
-};
 
-
+document.body.style.backgroundColor="#ccffcc";
 
 ReactDOM.render(
-  <Cardbox style={divStyle} url={"/trello/cards/" + boardid + "/"} pollInterval={5000}/> ,
+  <Cardbox url={"/trello/cards/" + boardid + "/"} pollInterval={5000}/> ,
   document.getElementById('cards_list_react')
 );
 
