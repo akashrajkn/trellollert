@@ -224,7 +224,7 @@ var MessageForm = React.createClass({
 var Card = React.createClass({
   render: function() {
 
-    var jumboStyle= {backgroundColor:"#2E64FE", color:"white"};
+    var jumboStyle= {backgroundColor:"#0079bf", color:"white"};
 
     var popoverHoverFocus = (
       <Popover id="popover-trigger-hover-focus">
@@ -259,7 +259,7 @@ var Message = React.createClass({
 
 
 
-document.body.style.backgroundColor="#ccffcc";
+document.body.style.backgroundColor="#DEDEF6";
 
 ReactDOM.render(
   <Cardbox url={"/trello/cards/" + boardid + "/"} pollInterval={5000}/> ,
