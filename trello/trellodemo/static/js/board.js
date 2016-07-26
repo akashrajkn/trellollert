@@ -275,7 +275,7 @@ var Card = React.createClass({
           <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverHoverFocus}>
             <Jumbotron style={jumboStyle}>
               <h3><b>{this.props.card_text}</b></h3>
-              <Messagebox url={"/trello/messages/" + this.props.cardid + "/"} pollInterval={10000}/>
+              <Messagebox url={"/trello/messages/" + this.props.cardid + "/"} pollInterval={2000}/>
             </Jumbotron>
           </OverlayTrigger>
         </Col>
