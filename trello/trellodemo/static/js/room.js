@@ -13,6 +13,7 @@ var ControlLabel = ReactBootstrap.ControlLabel;
 var Popover = ReactBootstrap.Popover;
 var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 var Overlay = ReactBootstrap.Overlay;
+var Glyphicon = ReactBootstrap.Glyphicon;
 var Panel = ReactBootstrap.Panel;
 
 var SearchExample = React.createClass({
@@ -124,6 +125,7 @@ var Room = React.createClass({
       var newdata = [];
       newdata.push({
         id: l.id,
+        key: l.id,
         boardname: l.boardname
       });
 
@@ -132,9 +134,12 @@ var Room = React.createClass({
       );
     });
 
+    var dividerStyle = {width:"5px", height:"auto"};
+
     return (
-      <div className="room">
-      <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search Boards" />
+      <div className="room"> 
+      <Glyphicon glyph="search"/>
+      <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder= "Search Boards" />
         <Grid>
           <h2>My Room</h2>
           {boardlistfilter}
