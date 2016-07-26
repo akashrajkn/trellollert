@@ -13,6 +13,52 @@ var ControlLabel = ReactBootstrap.ControlLabel;
 var Popover = ReactBootstrap.Popover;
 var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 var Overlay = ReactBootstrap.Overlay;
+var Panel = ReactBootstrap.Panel;
+
+var SearchExample = React.createClass({
+
+    getInitialState: function(){
+        return { searchString: '' };
+    },
+
+    handleChange: function(e){
+
+        this.setState({searchString:e.target.value});
+    },
+
+    render: function() {
+
+        var libraries = this.state.data,
+            searchString = this.state.searchString.trim().toLowerCase();
+
+        console.log(libraries);
+
+        if(searchString.length > 0){
+
+            // We are searching. Filter the results.
+
+            libraries = libraries.boardname.filter(function(l){
+                return l.toLowerCase().match( searchString );
+            });
+
+        }
+
+        return <div>
+                    <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here" />
+
+                    <div>
+
+                        { libraries.map(function(l){
+                            return <Room data={this.state.data} />
+                        }) }
+
+                    </div>
+
+                </div>;
+
+    }
+});
+
 
 
 var Room = React.createClass({
@@ -51,18 +97,47 @@ var Room = React.createClass({
     });
   },
   getInitialState: function() {
-    return {data: []};
+    return {data: [], searchString: '',};
+  },
+  handleChange: function(e) {
+    this.setState({searchString:e.target.value});
   },
   componentDidMount: function() {
     this.loadBoardsFromServer();
     setInterval(this.loadBoardsFromServer, this.props.pollInterval);
   },
   render: function() {
+    var libraries = this.state.data;
+    var searchString = this.state.searchString.trim().toLowerCase();
+    //console.log(searchString);
+    if(searchString.length > 0){
+
+      libraries = libraries.filter(function(l){
+        console.log(l.boardname);
+          return l.boardname.toLowerCase().match( searchString );
+      });
+
+    };
+
+    var boardlistfilter = libraries.map(function(l) {
+
+      var newdata = [];
+      newdata.push({
+        id: l.id,
+        boardname: l.boardname
+      });
+
+      return(
+        <BoardList data={newdata}/>
+      );
+    });
+
     return (
       <div className="room">
+      <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search Boards" />
         <Grid>
           <h2>My Room</h2>
-          <BoardList data={this.state.data} />
+          {boardlistfilter}
           <BoardForm onBoardSubmit={this.handleBoardSubmit} />
         </Grid>
       </div>  
@@ -72,6 +147,7 @@ var Room = React.createClass({
 
 var BoardList = React.createClass({
   render: function() {
+
     var boardNodes = this.props.data.map(function(board) {
       return (
         <Board boardname={board.boardname} key={board.id} boardid={board.id}>
