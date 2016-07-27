@@ -97,7 +97,7 @@ var Room = React.createClass({
       <Glyphicon glyph="search"/>
       <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder= "Search Boards" />
         <Grid>
-          <h2>My Room</h2>
+          <h2>Private Room</h2>
             {boardlistfilter}
           <BoardForm onBoardSubmit={this.handleBoardSubmit} />
         </Grid>
@@ -276,6 +276,7 @@ var Board = React.createClass({
 
     var jumboStyle={backgroundColor:"#088A08", color:"white"};
     var closeStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"10"};
+    var userStyle = {display: "inlineBlock", position:"absolute", top: "0", left:"10"};
     var editStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"40"};
     var glyphStyle = {color: "white"};
 
@@ -285,6 +286,11 @@ var Board = React.createClass({
           <a href={'' + this.props.boardid}>
             <Jumbotron style={jumboStyle}>
               <h3>{this.props.boardname}</h3>
+              <a href="#">
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverHoverFocus}>
+                  <Button bsStyle="link" style={userStyle}> <Glyphicon style={glyphStyle} glyph="plus-sign" /></Button>
+                </OverlayTrigger>
+              </a>
               <a href="#">
                 <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverHoverFocus}>
                   <Button bsStyle="link" style={editStyle}> <Glyphicon style={glyphStyle} glyph="edit" /></Button>
