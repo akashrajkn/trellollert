@@ -32,17 +32,24 @@ def room(request):
 
 @login_required
 def deleteboard(request, board_id):
-#    Board.objects.filter(id=board_id).delete()
-    
-
-
     board = get_object_or_404(Board, pk=board_id)
-    
-    print(board)
-
     board.delete()
 
     return HttpResponse([])
+
+@login_required
+def modifyboard(request, board_id, new_boardname):
+
+    print("@@@@@@@@@@@@@@@@@@@@@@")
+
+    print(new_boardname)
+
+    board = get_object_or_404(Board, pk=board_id)
+    board.boardname = new_boardname
+    board.save()
+
+    return HttpResponse([])
+
 
 @login_required
 def cards(request, board_id):

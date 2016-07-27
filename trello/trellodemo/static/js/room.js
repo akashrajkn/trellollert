@@ -164,7 +164,7 @@ var BoardForm = React.createClass({
     };
 
     var popoverHoverFocus = (
-      <Popover style={popoverStyle} id="popover2">
+      <Popover style={popoverStyle} id="popover2" >
         <Form inline onSubmit={this.handleSubmit}>
           <FormGroup controlId="formInlineCardName">
             <FormControl type="text" placeholder="+ board" onChange={this.handleBoardnameChange}/>
@@ -180,7 +180,7 @@ var BoardForm = React.createClass({
         <Grid>
           <Row>
             <Col md={3}>
-              <OverlayTrigger trigger="click" rootClose overlay={popoverHoverFocus}>
+              <OverlayTrigger trigger="click" rootClose overlay={popoverHoverFocus} show={this.state.show}>
                 <Jumbotron style={jumboStyle}>
                   <h3>Add Board</h3>
                 </Jumbotron>
@@ -217,7 +217,11 @@ const CustomPopover = React.createClass({
 var Board = React.createClass({
   
   getInitialState: function() {
-    return {url2: "deleteboard/" + this.props.boardid + "/"};
+    return {url2: "deleteboard/" + this.props.boardid + "/", url3: "modifyboard/" + this.props.boardid + "/" + this.props.boardname + "/", show: false, new_boardname: ''};
+  },
+
+  handleBoardnameModify: function(e) {
+    this.setState({new_boardname: e.target.value, show:this.state.show, url3:"modifyboard/" + this.props.boardid + "/" + e.target.value});
   },
 
   handleBoardDelete: function(board) {
@@ -234,6 +238,19 @@ var Board = React.createClass({
     });
   },
 
+  handleBoardModify: function(board) {
+    $.ajax({
+      url: this.state.url3,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data:data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: board});
+        console.log(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
 
   handleSubmit: function(e) {
     e.preventDefault();
@@ -247,9 +264,19 @@ var Board = React.createClass({
 
   render: function() {
 
+    var popoverHoverFocus = (
+      <Popover id="popover3">
+        <Form inline onSubmit={this.handleBoardModify}>
+          <FormGroup controlId="formInlineCardName">
+            <FormControl type="text" placeholder="" onChange={this.handleBoardnameModify}/>
+          </FormGroup>
+        </Form>
+      </Popover>
+    ); 
+
     var jumboStyle={backgroundColor:"#088A08", color:"white"};
-    var closeStyle = {position:"absolute", top: "0", right:"10"};
-    var editStyle = {position:"absolute", top: "0", right:"40"};
+    var closeStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"10"};
+    var editStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"40"};
     var glyphStyle = {color: "white"};
 
     return (
@@ -258,11 +285,12 @@ var Board = React.createClass({
           <a href={'' + this.props.boardid}>
             <Jumbotron style={jumboStyle}>
               <h3>{this.props.boardname}</h3>
-              <a href="">
-                <Button bsStyle="link"  onClick={this.handleBoardDelete} style={editStyle}> <Glyphicon style={glyphStyle} glyph="edit" />
- </Button>
-              </a>              
-              <a href="">
+              <a href="#">
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverHoverFocus}>
+                  <Button bsStyle="link" style={editStyle}> <Glyphicon style={glyphStyle} glyph="edit" /></Button>
+                </OverlayTrigger>
+              </a>
+              <a href="#">
                 <Button bsStyle="link" style={closeStyle} onClick={this.handleBoardDelete} > <Glyphicon style={glyphStyle} glyph="remove-sign" /> </Button>
               </a>
             </Jumbotron>
@@ -275,6 +303,6 @@ var Board = React.createClass({
 
 
 ReactDOM.render(
-  <Room url="/trello/room/" pollInterval={2000}/>,
+  <Room url="/trello/room/" pollInterval={1000}/>,
   document.getElementById('boards_list_react')
 );
