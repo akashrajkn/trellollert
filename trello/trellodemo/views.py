@@ -15,7 +15,7 @@ def index(request):
 def board(request, board_id):
     board = get_object_or_404(Board, pk=board_id)
     return render(request, 'trellodemo/board.html', {'board':board})
-
+@login_required
 def room(request):
     if request.method =='POST':
         board_data = BoardForm(request.POST)
@@ -30,6 +30,19 @@ def room(request):
 
     return HttpResponse(json.dumps(data))
 
+@login_required
+def deleteboard(request, board_id):
+#    Board.objects.filter(id=board_id).delete()
+    
+
+
+    board = get_object_or_404(Board, pk=board_id)
+    
+    print(board)
+
+    board.delete()
+
+    return HttpResponse([])
 
 @login_required
 def cards(request, board_id):
@@ -38,7 +51,7 @@ def cards(request, board_id):
     if request.method == 'POST':
         card_text = request.POST['card_text']
         card_data = Card(card_text = card_text, board = board, created_by = request.user.username)
-        card_data.save() 
+        card_data.save()
     cards_list = Card.objects.filter(board=board)
 
     data = []
@@ -68,7 +81,9 @@ def messages(request, card_id):
     return HttpResponse(json.dumps(data))    
 
 
+@login_required
 def logout_view(request):
+
     logout(request)
-    return redirect('trellodemo/room.html')
+    return redirect('/trello')
 

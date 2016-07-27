@@ -9,5 +9,6 @@ urlpatterns = [
 	url(r'^(?P<board_id>[0-9]+)/$', views.board, name='board'),
 	url(r'^cards/(?P<board_id>[0-9]+)/$', views.cards, name = 'cards'),
 	url(r'^messages/(?P<card_id>[0-9]+)/$', views.messages, name='messages'),
+	url(r'^deleteboard/(?P<board_id>[0-9]+)/$', views.deleteboard, name='deleteboard'),
 	url(r'^logout/$', views.logout_view, name='logout_view'),
 ]

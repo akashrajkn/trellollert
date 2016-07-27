@@ -16,50 +16,6 @@ var Overlay = ReactBootstrap.Overlay;
 var Glyphicon = ReactBootstrap.Glyphicon;
 var Panel = ReactBootstrap.Panel;
 
-var SearchExample = React.createClass({
-
-    getInitialState: function(){
-        return { searchString: '' };
-    },
-
-    handleChange: function(e){
-
-        this.setState({searchString:e.target.value});
-    },
-
-    render: function() {
-
-        var libraries = this.state.data,
-            searchString = this.state.searchString.trim().toLowerCase();
-
-        console.log(libraries);
-
-        if(searchString.length > 0){
-
-            // We are searching. Filter the results.
-
-            libraries = libraries.boardname.filter(function(l){
-                return l.toLowerCase().match( searchString );
-            });
-
-        }
-
-        return <div>
-                    <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here" />
-
-                    <div>
-
-                        { libraries.map(function(l){
-                            return <Room data={this.state.data} />
-                        }) }
-
-                    </div>
-
-                </div>;
-
-    }
-});
-
 
 
 var Room = React.createClass({
@@ -142,7 +98,7 @@ var Room = React.createClass({
       <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder= "Search Boards" />
         <Grid>
           <h2>My Room</h2>
-          {boardlistfilter}
+            {boardlistfilter}
           <BoardForm onBoardSubmit={this.handleBoardSubmit} />
         </Grid>
       </div>  
@@ -151,6 +107,9 @@ var Room = React.createClass({
 });
 
 var BoardList = React.createClass({
+
+
+
   render: function() {
 
     var boardNodes = this.props.data.map(function(board) {
@@ -185,14 +144,11 @@ var BoardForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     var boardname = this.state.boardname.trim();
-    console.log(boardname);
-    console.log("$");
     if (!boardname) {
       return;
     }
     this.setState({boardname: '',show: false});
     this.props.onBoardSubmit({boardname: boardname, csrfmiddlewaretoken: csrftoken});
-
   },
   render: function() {
 
@@ -259,23 +215,58 @@ const CustomPopover = React.createClass({
 });
 
 var Board = React.createClass({
+  
+  getInitialState: function() {
+    return {url2: "deleteboard/" + this.props.boardid + "/"};
+  },
+
+  handleBoardDelete: function(board) {
+    $.ajax({
+      url: this.state.url2,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: board});
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var boardname = this.state.boardname.trim();
+    if (!boardname) {
+      return;
+    }
+
+    this.props.onBoardSubmit({boardid: this.state.boardid, csrfmiddlewaretoken: csrftoken});
+  },
 
   render: function() {
 
     var jumboStyle={backgroundColor:"#088A08", color:"white"};
-
-
+    var closeStyle = {position:"absolute", top: "0", right:"10"};
+    var editStyle = {position:"absolute", top: "0", right:"40"};
+    var glyphStyle = {color: "white"};
 
     return (
       <div className="board">
         <Col md={3}>
-
-        <a href={'' + this.props.boardid}>
-          <Jumbotron style={jumboStyle}>
-            <h3>{this.props.boardname}</h3>
-          </Jumbotron>
-        </a>
-
+          <a href={'' + this.props.boardid}>
+            <Jumbotron style={jumboStyle}>
+              <h3>{this.props.boardname}</h3>
+              <a href="">
+                <Button bsStyle="link"  onClick={this.handleBoardDelete} style={editStyle}> <Glyphicon style={glyphStyle} glyph="edit" />
+ </Button>
+              </a>              
+              <a href="">
+                <Button bsStyle="link" style={closeStyle} onClick={this.handleBoardDelete} > <Glyphicon style={glyphStyle} glyph="remove-sign" /> </Button>
+              </a>
+            </Jumbotron>
+          </a>
         </Col>
       </div>
     );
@@ -284,6 +275,6 @@ var Board = React.createClass({
 
 
 ReactDOM.render(
-  <Room url="/trello/room/" pollInterval={5000}/>,
+  <Room url="/trello/room/" pollInterval={2000}/>,
   document.getElementById('boards_list_react')
 );

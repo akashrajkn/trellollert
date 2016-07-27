@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-{% load static %}
+    {% load static %}
 
+    <body>
 
-<body>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!--
+        <!--
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -20,29 +19,31 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 -->
-<!--
+        <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.29.5/react-bootstrap.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.29.5/react-bootstrap.min.js"></script>
 -->
 
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/react.js' %}"></script>
-<script src="{% static 'js/react-dom.js' %}"></script>
-<script src="{% static 'js/browser.js' %}"></script>
+<!--        <link
+            rel="stylesheet"
+            href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/react.js' %}"></script>
+        <script src="{% static 'js/react-dom.js' %}"></script>
+        <script src="{% static 'js/browser.js' %}"></script>
 
-<script src="{% static 'js/react-bootstrap.js' %}"></script>
-<script src="{% static 'js/react-bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/react-bootstrap.js' %}"></script>
+        <script src="{% static 'js/react-bootstrap.min.js' %}"></script>
 
-<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
 
-<script>
-    var csrftoken = '{{ csrf_token }}';
-    var loggedInUser = '{{current_user.username}}';
-</script>
-<!--
+        <script>
+            var csrftoken = '{{ csrf_token }}';
+            var loggedInUser = '{{current_user.username}}';
+        </script>
+        <!--
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -63,20 +64,12 @@
 </nav>
 -->
 
+        <div id="mount_node"></div>
+        <script type="text/babel" src="{% static 'js/base.js' %}"></script>
 
-<div id="mount_node"></div>
-<script type="text/babel" src="{% static 'js/base.js' %}"></script>
+        {% block board_name %}{% endblock %}
+        {% block body %}{% endblock %}
 
-
-
-
-
-{% block board_name %}{% endblock %}
-{% block body %}{% endblock %}
-
-
-
-
-</body>
+    </body>
 
 </html>
