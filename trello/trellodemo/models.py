@@ -7,6 +7,13 @@ class Board(models.Model):
 	def __str__(self):
 		return self.boardname
 
+class Member(models.Model):
+	membername = models.CharField(max_length=255)
+	
+	def __str__(self):
+		return self.membername
+
+
 class BoardForm(ModelForm):
 	class Meta:
 		model = Board

@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import Board, Card, Message
+from .models import Board, Card, Message, Member
 
 
-myModels = [Board, Card, Message]
+myModels = [Board, Card, Message, Member]
 
 
 admin.site.register(myModels)

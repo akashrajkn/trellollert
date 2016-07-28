@@ -100,6 +100,7 @@ var Room = React.createClass({
           <h2>Private Room</h2>
             {boardlistfilter}
           <BoardForm onBoardSubmit={this.handleBoardSubmit} />
+          <h2>Shared Room</h2>
         </Grid>
       </div>  
     );
