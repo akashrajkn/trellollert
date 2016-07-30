@@ -259,23 +259,94 @@ var MessageForm = React.createClass({
 
 
 var Card = React.createClass({
+  getInitialState: function() {
+    return {showMe: false, url2: "deletecard/" + this.props.cardid + "/", url3: "", show: false, new_cardname: ''};
+  },
+
+  changeComponentToInput: function() {
+    this.setState({showMe: !this.state.showMe});
+  },
+
+  handleCardnameModify: function(e) {
+    this.setState({new_cardname: e.target.value, url3:"modifycard/" + this.props.cardid + "/" + e.target.value + "/"});
+  },
+
+  handleCardDelete: function(card) {
+    $.ajax({
+      url: this.state.url2,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: card});
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+
+  handleCardModify: function(card) {
+
+    console.log(this.state.url3)
+
+    this.setState({showMe: false});
+    $.ajax({
+      url: this.state.url3,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data:data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: card});
+        console.log(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
   render: function() {
 
     var jumboStyle= {backgroundColor:"#0079bf", color:"white"};
+    var closeStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"10"};
+    var userStyle = {display: "inlineBlock", position:"absolute", top: "0", left:"10"};
+    var editStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"40"};
+    var glyphStyle = {color: "white"};
 
     var popoverHoverFocus = (
       <Popover id="popover-trigger-hover-focus">
         Added by: <strong>{this.props.created_by}</strong>
       </Popover>
     );
+    
+    const wellStyles = {margin: '0 auto 10px'};
+    var clickableTitle;
+
+    if(this.state.showMe) {
+      clickableTitle =       <Form inline onSubmit={this.handleCardModify}>
+        <FormGroup controlId="formInlineCardname">
+          <FormControl type="text" placeholder="change" onChange={this.handleCardnameModify} block/>
+        </FormGroup>
+      </Form>;
+    } else {
+      clickableTitle = <div> <Button bsStyle="link" style={glyphStyle} onClick={this.changeComponentToInput}><h3> {this.props.card_text} </h3> </Button> </div>;
+    }
+
 
     return (
       <div className="card">
         <Col md={4}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="bottom" overlay={popoverHoverFocus}>
             <Jumbotron style={jumboStyle}>
-              <h3><b>{this.props.card_text}</b></h3>
-              <Messagebox url={"/trello/messages/" + this.props.cardid + "/"} pollInterval={10000}/>
+              {clickableTitle}
+              <a href="#">
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverHoverFocus}>
+                  <Button bsStyle="link" style={editStyle}> <Glyphicon style={glyphStyle} glyph="edit" /></Button>
+                </OverlayTrigger>
+              </a>
+              <a href="#">
+                <Button bsStyle="link" style={closeStyle} onClick={this.handleCardDelete} > <Glyphicon style={glyphStyle} glyph="remove-sign" /> </Button>
+              </a>
+              <Messagebox url={"/trello/messages/" + this.props.cardid + "/"} pollInterval={1000}/>
             </Jumbotron>
           </OverlayTrigger>
         </Col>
@@ -292,13 +363,13 @@ var Message = React.createClass({
 
   render: function() {
 
-    var buttonStyle = {color:"black"};
+    var buttonStyle = {color:"white"};
     const wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
 
     let lgClose = () => this.setState({ lgShow: false });    
     return (
-      <div className="message" style={wellStyles}>
-        <Button bsStyle="default" bsSize="xsmall" style={buttonStyle} onClick={()=>this.setState({ lgShow: true })} block>
+      <div className="message" >
+        <Button bsStyle="link" bsSize="xsmall" style={buttonStyle} onClick={()=>this.setState({ lgShow: true })} >
           {this.props.message_text}
         </Button>
         <MyLargeModal card_text={this.props.card_text} show={this.state.lgShow} title={this.props.message_text} onHide={lgClose} />
@@ -312,7 +383,7 @@ var Message = React.createClass({
 document.body.style.backgroundColor="#DEDEF6";
 
 ReactDOM.render(
-  <Cardbox url={"/trello/cards/" + boardid + "/"} pollInterval={5000}/> ,
+  <Cardbox url={"/trello/cards/" + boardid + "/"} pollInterval={2000}/> ,
   document.getElementById('cards_list_react')
 );
 

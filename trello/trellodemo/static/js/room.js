@@ -100,6 +100,7 @@ var Room = React.createClass({
           <h2>Private Room</h2>
             {boardlistfilter}
           <BoardForm onBoardSubmit={this.handleBoardSubmit} />
+          <h2>Shared Room</h2>
         </Grid>
       </div>  
     );
@@ -217,7 +218,7 @@ const CustomPopover = React.createClass({
 var Board = React.createClass({
   
   getInitialState: function() {
-    return {url2: "deleteboard/" + this.props.boardid + "/", url3: "modifyboard/" + this.props.boardid + "/" + this.props.boardname + "/", show: false, new_boardname: ''};
+    return {url2: "deleteboard/" + this.props.boardid + "/", url3: "modifyboard/" + this.props.boardid + "/" + this.props.boardname + "/", show: false, new_boardname: '', showMe: false};
   },
 
   handleBoardnameModify: function(e) {
@@ -239,6 +240,9 @@ var Board = React.createClass({
   },
 
   handleBoardModify: function(board) {
+
+    console.log(this.state.url3);
+
     $.ajax({
       url: this.state.url3,
       dataType: 'json',
@@ -268,11 +272,21 @@ var Board = React.createClass({
       <Popover id="popover3">
         <Form inline onSubmit={this.handleBoardModify}>
           <FormGroup controlId="formInlineCardName">
-            <FormControl type="text" placeholder="" onChange={this.handleBoardnameModify}/>
+            <FormControl type="text" placeholder="change name" onChange={this.handleBoardnameModify}/>
           </FormGroup>
         </Form>
       </Popover>
     ); 
+
+    var popoverHoverFocusMembers = (
+      <Popover id="popover3">
+        <Form inline onSubmit={this.handleBoardModify}>
+          <FormGroup controlId="formInlineCardName">
+            <FormControl type="text" placeholder="add Members" onChange={this.handleBoardnameModify}/>
+          </FormGroup>
+        </Form>
+      </Popover>
+    );    
 
     var jumboStyle={backgroundColor:"#088A08", color:"white"};
     var closeStyle = {display: "inlineBlock", position:"absolute", top: "0", right:"10"};
@@ -287,7 +301,7 @@ var Board = React.createClass({
             <Jumbotron style={jumboStyle}>
               <h3>{this.props.boardname}</h3>
               <a href="#">
-                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverHoverFocus}>
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverHoverFocusMembers}>
                   <Button bsStyle="link" style={userStyle}> <Glyphicon style={glyphStyle} glyph="plus-sign" /></Button>
                 </OverlayTrigger>
               </a>
