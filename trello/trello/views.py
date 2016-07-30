@@ -2,24 +2,34 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+
+from django.contrib.auth import logout, login, authenticate
+
+import json
+
+import trellodemo
 
 
 def index(request):
-    return HttpResponseRedirect('/trello/')
 
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/trello/')
 
-def user_login(request):
     username = password = ''
     if request.POST:
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        print(username)
+        print(password)
+
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('birthdayreminder.views.main')
+                return HttpResponse(json.dumps([{}]))
 
-    return render_to_response('login.html',{'username': username}, context_instance=RequestContext(request))
+        return HttpResponse(json.dumps([{}]))
+
+    return render(request, 'registration/login.html', {})
 

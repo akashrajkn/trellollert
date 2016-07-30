@@ -16,7 +16,9 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
 
-
+<script>
+          var csrftoken = '{{ csrf_token }}';
+    </script>
 <div id="mount_node"></div>
 <script type="text/babel" src="{% static 'js/login.js' %}"></script>
 

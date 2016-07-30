@@ -40,16 +40,21 @@ def deleteboard(request, board_id):
 @login_required
 def modifyboard(request, board_id, new_boardname):
 
-    print("@@@@@@@@@@@@@@@@@@@@@@")
-
-    print(new_boardname)
-
     board = get_object_or_404(Board, pk=board_id)
     board.boardname = new_boardname
     board.save()
 
     return HttpResponse([])
 
+
+@login_required
+def modifycard(request, card_id, new_cardname, board_id):
+
+    card = get_object_or_404(Card, pk=card_id)
+    card.card_text = new_cardname
+    card.save()
+
+    return HttpResponse([])
 
 @login_required
 def cards(request, board_id):

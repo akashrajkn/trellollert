@@ -22,9 +22,12 @@ var Tabs = ReactBootstrap.Tabs;
 
 
 var LoginBox = React.createClass({
+
   handleLoginSubmit: function(comment) {
+    console.log(comment);
+    console.log(this.state.url);
     $.ajax({
-      url: this.props.url,
+      url: this.state.url,
       dataType: 'json',
       type: 'POST',
       data: comment,
@@ -34,11 +37,17 @@ var LoginBox = React.createClass({
       error: function(xhr, status, err) {
         this.setState({data: comment});
         console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+      }.bind(this),
+    }).then(this.pqr);
   },
+
+  pqr: function() {
+    history.pushState({},'','/trello/')
+    window.location.reload()
+  },
+
   getInitialState: function() {
-    return {data: []};
+    return {data: [], url: "/", urltrello: "/trello/"};
   },
   render: function() {
     return (
@@ -144,7 +153,7 @@ var LoginForm = React.createClass({
     if (!username || !password) {
       return;
     }
-    this.props.onLoginSubmit({username: username, password: password});
+    this.props.onLoginSubmit({username: username, password: password, csrfmiddlewaretoken: csrftoken});
     this.setState({username: '', password: ''});
   },
   render: function() {
@@ -166,7 +175,7 @@ var LoginForm = React.createClass({
                 <ControlLabel></ControlLabel>
                 </Row>
                 <Row>
-                <Button bsStyle="primary" type="submit" onClick={this.handleSubmit}> Sign In </Button>
+                <Button bsStyle="success" type="submit" onClick={this.handleSubmit}> Sign In </Button>
                 </Row>
               </FormGroup>
             </Form>

@@ -1,18 +1,21 @@
 from django.db import models
 from django.forms import ModelForm
+from django.utils import timezone
+from django.contrib.auth.models import User
+
 
 class Board(models.Model):
 	boardname = models.CharField(max_length=255)
+
 	
 	def __str__(self):
 		return self.boardname
 
-class Member(models.Model):
-	membername = models.CharField(max_length=255)
-	
-	def __str__(self):
-		return self.membername
+class UserProfile(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+	def __str__(self):
+		return self.user.username
 
 class BoardForm(ModelForm):
 	class Meta:
